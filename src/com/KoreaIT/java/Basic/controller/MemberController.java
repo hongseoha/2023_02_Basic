@@ -6,18 +6,34 @@ import java.util.Scanner;
 import com.KoreaIT.java.Basic.dto.Member;
 import com.KoreaIT.java.Basic.util.Util;
 
-public class MemberController {
+public class MemberController extends Controller {
 
 	private List<Member> members;
 	private Scanner sc;
+	private String command;
+	private String actionMethodName;
 
 	public MemberController(List<Member> members, Scanner sc) {
 		this.members = members;
 		this.sc = sc;
 	}
 
+	public void doAction(String command, String actionMethodName) {
+		this.command = command;
+		this.actionMethodName = actionMethodName;
+		
+		switch (actionMethodName) {
+		case "join":
+			doJoin();
+			break;
+		}
+		
+	}
+
+	int lastMemberId;
+
 	public void doJoin() {
-		int id = members.size() + 1;
+		int id = lastMemberId + 1;
 		String regDate = Util.getNowDateStr();
 		String loginId = null;
 		while (true) {
@@ -52,6 +68,7 @@ public class MemberController {
 		members.add(member);
 
 		System.out.printf("%d번 회원이 가입 되었습니다\n", id);
+		lastMemberId++;
 
 	}
 
